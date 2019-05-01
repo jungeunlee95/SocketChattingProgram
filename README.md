@@ -75,6 +75,8 @@ BufferedReader br = new BufferedReader(
     new InputStreamReader(socket.getInputStream(), "utf-8"));
 PrintWriter pw = new PrintWriter(
     new OutputStreamWriter(socket.getOutputStream(), "utf-8"),true);
+
+// 서버가 연결 된 후 !!!!!
 // 3. join 프로토콜  -> 서버가 닉네임 받아서 처리 / 성공하면 다음 실행 
 pw.println("join:"+ name);
 String ack = br.readLine(); 
@@ -83,7 +85,13 @@ String ack = br.readLine();
 > 해당 ip 포트에 연결을 요청한다
 >
 > 연결이 될 때 까지 기다린다.
+
+
+
+> 서버에서 2번과정을 걸쳐 연결을 한 뒤 소켓을 만들면, 
 >
+> 그때 name(pw)을 전송함, 그리고 서버의 응답(br)을 기다림
+
 > 위의 `String ack = br.readLine(); ` 코드가 blocking상태임
 
 
@@ -145,6 +153,8 @@ String data = br.readLine();
 > 클라이언트의 br을 기다리는 blocking 코드
 >
 > client쪽에서 `pw.println("join:"+ name);` 를 통해 닉네임 데이터를 전송했음
+>
+> 1번과정의 `pw.println("join:"+ name);`
 
 
 
@@ -242,17 +252,23 @@ public ChatWindow(String name, Socket socket) {
 
 > 윈도우가 소켓을 저장함!
 >
-> --> 입력창을 통해 입력된 메세지를 자기가 저장한 소켓과 연결된 pw를 통해
+> --> 채팅 입력창을 통해 입력된 메세지를 자기가 저장한 소켓(클라이언트 소켓)과 연결된 pw(서버와 연결된 소켓)를 통해 반대편 쓰레드의 소켓으로 보냄 
 >
-> 반대편 쓰레드(서버소켓?)의 소켓으로 보냄 
+> ![1556713781868](assets/1556713781868.png)
+>
+> 초록색 방향이라고 보면 됨!
 
-그 다음..(?)
+
+
+그 다음..
 
 
 
 #### 8번과정
 
-**show() 메소드가 실행되며, 윈도우 프레임을 만든다( GUI ..? )**
+**show() 메소드가 실행되며, 윈도우 창을 만든다( 윈도우 채팅창 조건 설정에 맞게 뜸! )**
+
+- 윈도우 안의 컨트롤 위치와 크기를 잡는다!!!
 
 가장 중요한 메세지를 보내는 두가지 방법 설정 --> send버튼 클릭, Enter키!
 
