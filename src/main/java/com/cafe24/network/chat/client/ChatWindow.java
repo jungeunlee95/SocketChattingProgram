@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.util.Map;
 
 public class ChatWindow {
 
@@ -34,10 +35,13 @@ public class ChatWindow {
 	private PrintWriter pw;
 	private BufferedReader br;
 	
+	private String totalUser;
 	
-	public ChatWindow(String name, Socket socket) {
+	
+	public ChatWindow(String name, Socket socket, String ack) {
 		this.socket = socket;
 		this.name = name;
+		this.totalUser = ack;
 		frame = new Frame(name); // 큰 틀
 		pannel = new Panel(); // 아래 대화 입력
 		buttonSend = new Button("Send"); // 패널의 자식
@@ -47,6 +51,11 @@ public class ChatWindow {
 
 	private void finish() {
 		// socket 정리
+		// witer.println("QUIT")
+		// thread.join();
+//		if(socket != null && socket.isClosed() == false){
+//			socket.close();
+//		}
 		System.exit(0);
 	}
 
@@ -95,6 +104,10 @@ public class ChatWindow {
 		// pw, br
 		pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 		br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+		
+
+		textArea.append("-------------------------------------------------------\n \t\t현재 참여 인원 : " + totalUser +"\n"
+				+ "-------------------------------------------------------\n");
 
 
 		// Thread 생성
@@ -109,9 +122,22 @@ public class ChatWindow {
 	
 	private void sendMessage() {
 		String message = textField.getText();
-
-		pw.println("message:" + message);
-				
+		
+		if(message.charAt(0)==('/')) {
+			if(message.length()<4) {
+				textArea.append("-------------------------------------------------------\n"+
+							    "\t\t잘못된 입력입니다\n \t\t귓속말을 보내시려면 아래의 형식을 맞춰주세요.\n \t\t/귓속말 [상대방닉네임] : [내용]\n"+
+								"-------------------------------------------------------\n");
+			}else if(message.substring(0, 4).equals("/귓속말")) {
+				pw.println("wisper:" + message +":"+name);
+			}else {
+				textArea.append("-------------------------------------------------------\n"+
+					    		"\t\t잘못된 입력입니다\n \t\t귓속말을 보내시려면 아래의 형식을 맞춰주세요.\n \t\t/귓속말 [상대방닉네임] : [내용]\n"+
+								"-------------------------------------------------------\n");
+			}
+		}else {
+			pw.println("message:" + message);
+		}
 		textField.setText("");
 		textField.requestFocus();
 	}
@@ -131,7 +157,7 @@ public class ChatWindow {
 					updateTextArea(reply);
 
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					System.exit(0);
 				}
 			}
 		}

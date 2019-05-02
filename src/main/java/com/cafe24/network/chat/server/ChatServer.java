@@ -1,18 +1,31 @@
 package com.cafe24.network.chat.server;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ChatServer {
 	
 	private static final int PORT = 9999;
-	public static List<Writer> listWriters = new ArrayList<Writer>();
+//	public static List<Writer> listWriters = new ArrayList<Writer>();
+	public static Map<String, Object> listWriters = new HashMap<>();
 	
+	public static int checkNickname(String name) {
+		int check = 0;
+		for(Entry<String, Object> writer : listWriters.entrySet()) {
+			if(writer.getKey().equals(name)) {
+				check += 1;			
+			}
+		}
+		
+		return check;
+		
+		
+	}
 	public static void main(String[] args) {
 		
 		ServerSocket serverSocket = null;
