@@ -68,7 +68,13 @@ D:\dowork\Eclipse-Workspace\chatcs\target\classes>java com.cafe24.network.chat.c
 
 
 
+# ++ 방장기능 : 강퇴
 
+### 추후에 더 추가하기!
+
+> ![1556873713742](assets/1556873713742.png)
+
+> ![1556873727923](assets/1556873727923.png)
 
 
 

@@ -20,7 +20,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.util.Map;
 
 public class ChatWindow {
 
@@ -106,7 +105,9 @@ public class ChatWindow {
 		br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 		
 
-		textArea.append("-------------------------------------------------------\n \t\t현재 참여 인원 : " + totalUser +"\n"
+		textArea.append("-------------------------------------------------------\n "
+				+ "\t\t현재 참여 인원 : " + totalUser +"\n"
+				+ "\t /? 를 치시면 사용하실 수 있는 기능이 나옵니다.\n"
 				+ "-------------------------------------------------------\n");
 
 
@@ -123,17 +124,21 @@ public class ChatWindow {
 	private void sendMessage() {
 		String message = textField.getText();
 		
+		String notice = "-------------------------------------------------------\n"+
+					    "\t\t [ 사용할 수 있는 기능 ] \n "+ 
+					    "\t\t /귓속말 [상대방닉네임] : [내용]\n\n"+
+					    "\t\t [ 방장 권한 기능 ] \n "+ 
+					    "\t\t /강퇴 [상대방닉네임]      \n"+
+						"-------------------------------------------------------\n";
 		if(message.charAt(0)==('/')) {
-			if(message.length()<4) {
-				textArea.append("-------------------------------------------------------\n"+
-							    "\t\t잘못된 입력입니다\n \t\t귓속말을 보내시려면 아래의 형식을 맞춰주세요.\n \t\t/귓속말 [상대방닉네임] : [내용]\n"+
-								"-------------------------------------------------------\n");
+			if(message.length()<3) {
+				textArea.append(notice);
 			}else if(message.substring(0, 4).equals("/귓속말")) {
 				pw.println("wisper:" + message +":"+name);
+			}else if(message.substring(0, 3).equals("/강퇴")) {
+				pw.println("NAGA:"+message + ":" + name);
 			}else {
-				textArea.append("-------------------------------------------------------\n"+
-					    		"\t\t잘못된 입력입니다\n \t\t귓속말을 보내시려면 아래의 형식을 맞춰주세요.\n \t\t/귓속말 [상대방닉네임] : [내용]\n"+
-								"-------------------------------------------------------\n");
+				textArea.append(notice);
 			}
 		}else {
 			pw.println("message:" + message);
@@ -150,6 +155,9 @@ public class ChatWindow {
 					
 					String reply = br.readLine(); // blocking
 
+					if( "NAGA!".equals(reply)) {
+						System.exit(0);
+					}
 					if (reply == null){
 						break;
 					}

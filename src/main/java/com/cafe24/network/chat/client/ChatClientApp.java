@@ -8,8 +8,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-import com.cafe24.network.chat.server.ChatServer;
-
 public class ChatClientApp {
 	
 	private static final String SERVER_IP = "192.168.1.12";
@@ -24,10 +22,11 @@ public class ChatClientApp {
 			System.out.println("대화명을 입력하세요.");
 			System.out.print(">>> ");
 			name = scanner.nextLine();
-			System.out.println(ChatServer.checkNickname(name));
-			if (ChatServer.checkNickname(name)==0) {
-				break;
-			}
+			
+//			System.out.println(ChatServer.checkNickname(name));
+//			if (ChatServer.checkNickname(name)==0) {
+//				break;
+//			}
 
 			if (name.isEmpty() == false) {
 				break;
@@ -61,7 +60,7 @@ public class ChatClientApp {
 			
 			new ChatWindow(name, socket, ack).show(); // name이랑 소켓도 넘겨야함
 		} catch(IOException e) {
-			e.printStackTrace();
+			System.out.println("서버가 존재하지 않습니다.");
 		} finally {
 			scanner.close();
 		}

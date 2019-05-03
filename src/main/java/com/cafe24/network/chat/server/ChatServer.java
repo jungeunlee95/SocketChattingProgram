@@ -4,28 +4,29 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cafe24.network.chat.client.ChatUser;
 
 public class ChatServer {
 	
 	private static final int PORT = 9999;
 //	public static List<Writer> listWriters = new ArrayList<Writer>();
-	public static Map<String, Object> listWriters = new HashMap<>();
+//	public static Map<String, Object> listWriters = new HashMap<>();
+	public static List<ChatUser> listWriters = new ArrayList<ChatUser>();
 	
-	public static int checkNickname(String name) {
-		int check = 0;
-		for(Entry<String, Object> writer : listWriters.entrySet()) {
-			if(writer.getKey().equals(name)) {
-				check += 1;			
-			}
-		}
-		
-		return check;
-		
-		
-	}
+//	public static int checkNickname(String name) {
+//		int check = 0;
+//		for(Entry<String, Object> writer : listWriters.entrySet()) {
+//			if(writer.getKey().equals(name)) {
+//				check += 1;			
+//			}
+//		}
+//		
+//		return check;	
+//	}
+	
 	public static void main(String[] args) {
 		
 		ServerSocket serverSocket = null;
@@ -45,14 +46,14 @@ public class ChatServer {
 			}
 		
 		}catch(IOException e) {
-			e.printStackTrace();
+			System.out.println("[CharServer] #1");
 		}finally {
 			try {
 				if(serverSocket != null && serverSocket.isClosed()) {
 					serverSocket.close();
 				}
 			}catch(IOException e) {
-				e.printStackTrace();
+				System.out.println("[CharServer] #2");
 			}
 		}
 		
