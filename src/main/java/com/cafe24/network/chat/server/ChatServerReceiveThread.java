@@ -11,8 +11,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 
-import com.cafe24.network.chat.client.ChatUser;
-
 public class ChatServerReceiveThread extends Thread {
 
 	private Socket socket;

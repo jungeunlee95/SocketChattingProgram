@@ -7,8 +7,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cafe24.network.chat.client.ChatUser;
-
 public class ChatServer {
 	
 	private static final int PORT = 9999;
